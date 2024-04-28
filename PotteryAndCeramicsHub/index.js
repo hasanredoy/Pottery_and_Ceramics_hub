@@ -44,6 +44,8 @@ async function run() {
     // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   
     const craftItemCollection= client.db('CraftItemDB').collection('craftItem')
+    const clientReviewCollection= client.db('ReviewDB').collection('review')
+    const artAndCraftCollection= client.db('artAndCraftDB').collection('artAndCraft')
 
   app.get('/craftItem', async(req,res)=>{
      const crafts = craftItemCollection.find()
@@ -65,6 +67,31 @@ async function run() {
   })
   
 
+  // client review 
+
+  app.get('/review' , async(req, res)=>{
+    const client = clientReviewCollection.find()
+    const result = await client.toArray()
+    res.send(result)
+  })
+  app.post('/review',async(req , res)=>{
+    const client = req.body
+    const result = await clientReviewCollection.insertOne(client)
+    res.send(result)
+  })
+
+  // art and craft 
+
+  app.get('/artAndCraft' , async(req, res)=>{
+    const client = artAndCraftCollection.find()
+    const result = await client.toArray()
+    res.send(result)
+  })
+  app.post('/artAndCraft',async(req , res)=>{
+    const client = req.body
+    const result = await artAndCraftCollection.insertOne(client)
+    res.send(result)
+  })
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
