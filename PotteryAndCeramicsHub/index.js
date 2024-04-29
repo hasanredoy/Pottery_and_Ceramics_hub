@@ -49,8 +49,6 @@ async function run() {
 
     const artAndCraftCollection = client.db('artAndCraftDB').collection('artAndCraft')
 
-    const userCollection = client.db('userArtAndCraftDB').collection('userArtAndCraft')
-    
     const allArtAndCraftCollection = client.db('allArtAndCraftDB').collection('allArtAndCraft')
 
     
@@ -110,20 +108,42 @@ async function run() {
   app.post('/allArtAndCraft',async(req , res)=>{
     const client = req.body
     const result = await allArtAndCraftCollection.insertOne(client)
-    res.send(result)
+    // res.send(result)
   })
 
 
   app.get("/allArtAndCraft/:id", async(req, res)=>{
     const id = req.params.id
-    console.log(id)
+    // console.log(id)
 
     const filter = {_id : new ObjectId(id)}
 
-    
-    const result= await allArtAndCraftCollection.findOne(filter)
-    console.log(result);
+   const result= await allArtAndCraftCollection.findOne(filter)
+    // console.log(result);
     res.send(result)
+  })
+
+  app.put( '/allArtAndCraft/:id' , async(req, res)=>{
+    const id= req.params.id
+     const filter = {_id : new ObjectId(id)}
+     const craftData = req.body
+     console.log('id:', id , 'data=', craftData);
+     const options= { upsert: true }
+     const update = {
+      $set:{
+        photoURL: craftData.photoURL,
+        item_name: craftData.item_name,
+        subcategory: craftData.subcategory,
+        descriprtion:craftData.descriprtion,
+        price:craftData.price,
+        rating:craftData.rating,
+        customization: craftData.customization,
+         stockStatus:craftData.stockStatus,
+         proccesing_time:craftData.proccesing_time
+      }
+     }
+     const result = await allArtAndCraftCollection.updateOne(filter,update ,options)
+     res.send(result)
   })
 
 
