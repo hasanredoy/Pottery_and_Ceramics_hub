@@ -114,6 +114,19 @@ async function run() {
   })
 
 
+  app.get("/allArtAndCraft/:id", async(req, res)=>{
+    const id = req.params.id
+    console.log(id)
+
+    const filter = {_id : new ObjectId(id)}
+
+    
+    const result= await allArtAndCraftCollection.findOne(filter)
+    console.log(result);
+    res.send(result)
+  })
+
+
   
   } finally {
     // Ensures that the client will close when you finish/error
