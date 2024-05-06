@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
 const Users = () => {
   const loadUsers = useLoaderData();
   const [users, setUser] = useState(loadUsers);
+  
+
+
 
   const handleDelete = (id) => {
     console.log(id);
-
     fetch(`http://localhost:5000/users/${id}`, {
       method: "DELETE",
     })
@@ -17,6 +19,8 @@ const Users = () => {
         const newUser = users.filter((user) => user._id !== id);
         setUser(newUser);
       });
+
+      
   };
   return (
     <div className=" mx-auto w-1/2">

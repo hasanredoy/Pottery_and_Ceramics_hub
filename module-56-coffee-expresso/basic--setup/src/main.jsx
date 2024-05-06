@@ -1,19 +1,36 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./Layout/Layout.jsx";
+import AddCoffee from "./components/AddCoffee.jsx";
+import UpdateCoffee from "./components/UpdateCoffee.jsx";
+import SingUp from "./components/SingUp.jsx";
+import Login from "./components/Login.jsx";
+import AuthProvider from "./Provider/AuthProvider.jsx";
+import User from "./components/User.jsx";
+
 import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import Layout from './Layout/Layout.jsx';
-import AddCoffee from './components/AddCoffee.jsx';
-import UpdateCoffee from './components/UpdateCoffee.jsx';
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import Users2 from "./components/Users2.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout></Layout>,
-    loader:()=>fetch('http://localhost:5000/coffee')
+    loader: () => fetch("http://localhost:5000/coffee"),
+  },
+  {
+    path: "/users",
+    element: <User></User>,
+    loader: () => fetch("http://localhost:5000/user"),
+  },
+  {
+    path: "/users2",
+    element: <Users2></Users2>,
+
   },
   {
     path: "/addCoffee",
@@ -22,12 +39,26 @@ const router = createBrowserRouter([
   {
     path: "/updateCoffee/:id",
     element: <UpdateCoffee></UpdateCoffee>,
-    loader:({params})=> fetch(`http://localhost:5000/coffee/${params.id}`)
+    loader: ({ params }) => fetch(`http://localhost:5000/coffee/${params.id}`),
+  },
+  {
+    path: "/singup",
+    element: <SingUp></SingUp>,
+  },
+  {
+    path: "/login",
+    element: <Login></Login>,
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const queryClient = new QueryClient();
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
+);
