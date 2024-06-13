@@ -1,8 +1,8 @@
 import { Link, useNavigate, useLocation} from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa";
 import { useContext, useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { AuthContext } from "../../components/authProvider/AuthProvider";
 import { ToastContainer, toast } from "react-toastify";
 
